@@ -72,4 +72,16 @@ export class AuthRepository {
       throw new InternalServerErrorException();
     }
   }
+
+  getSmsCode({ phone }: { phone: Customers['phone'] }) {
+    return this.redisService.get<number>(
+      `${this.REDIS_VERIFICATION_CODE.KEY}:${phone}`,
+    );
+  }
+
+  deleteSmsCode({ phone }: { phone: Customers['phone'] }) {
+    return this.redisService.delete(
+      `${this.REDIS_VERIFICATION_CODE.KEY}:${phone}`,
+    );
+  }
 }
