@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// NOTE: 고객 테이블
+// NOTE: createdAt -> 고객 휴대폰 인증 가입 시도 날짜
+// NOTE: joinedAt -> 고객 정식 가입 날짜
+model Customers {
+  id        Int       @id @default(autoincrement()) @db.UnsignedInt
+  phone     String?   @unique @db.VarChar(20)
+  nickname  String?   @unique @db.VarChar(15)
+  name      String?   @db.VarChar(15)
+  password  String?   @db.VarChar(150)
+  joinedAt  DateTime? @db.Date()
+  createdAt DateTime? @db.Date()
+  deletedAt DateTime? @db.Date()
+}
