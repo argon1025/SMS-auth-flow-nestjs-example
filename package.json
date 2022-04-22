@@ -1,10 +1,19 @@
 {
   "name": "ably-assignment-nestjs",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "NestJS로 작성된 에이블리 과제",
+  "author": {
+    "name": "argon1025",
+    "email": "argon1025@gmail.com",
+    "url": "https://github.com/argon1025"
+  },
   "private": true,
   "license": "UNLICENSED",
+  "bugs": "argon1025@gmail.com",
+  "engines": {
+    "node": "^16.14.2",
+    "yarn": "^1.22.0"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
