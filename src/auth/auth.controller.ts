@@ -4,10 +4,10 @@ import { Response } from 'express';
 import { SendSms, VerificationSms } from 'src/auth/auth.decorator';
 import { AuthService } from 'src/auth/auth.service';
 import { TokenService } from 'library/jwt/token.service';
+import { CookieService } from 'library/cookie/cookie.service';
 
 import { SendSmsBodyRequestDto } from 'src/auth/dto/send-sms.dto';
 import { VerificationSmsBodyRequestDto } from 'src/auth/dto/verification-sms.dto';
-import { CookieService } from 'library/cookie/cookie.service';
 
 @Controller('auth')
 export class AuthController {

@@ -1,13 +1,6 @@
 import { Customers } from '@prisma/client';
 import { Transform, Type } from 'class-transformer';
-import {
-  IsInt,
-  IsMobilePhone,
-  IsNumber,
-  IsString,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsMobilePhone, IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class VerificationSmsBodyRequestDto {
   // NOTE: 반드시 국가 코드를 입력해야합니다
