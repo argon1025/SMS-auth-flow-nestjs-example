@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Customers } from '@prisma/client';
 
 import { PrismaService } from 'library/prisma/prisma.service';
@@ -23,7 +27,6 @@ export class AuthService {
       prismaService: this.prismaService,
       phone,
     });
-    console.log(userData);
 
     // NOTE: 유저 데이터가 없다면
     if (!userData) {
@@ -49,5 +52,18 @@ export class AuthService {
     await this.smsService.send(`${CODE}`);
 
     return null;
+  }
+
+  async verificationSms(phone: Customers['phone'], code: number) {
+    const result = await this.authRepository.getSmsCode({ phone });
+    if (!result) throw new BadRequestException();
+
+    if (result !== code) {
+      await this.authRepository.deleteSmsCode({ phone });
+      throw new BadRequestException();
+    }
+
+    await this.authRepository.deleteSmsCode({ phone });
+    return true;
   }
 }
