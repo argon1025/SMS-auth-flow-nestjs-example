@@ -29,7 +29,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     await this.authService.verificationSms(phone, code);
-    console.log(this.cookieService.getAuthCookieOptions());
+
     const authToken = await this.tokenService.generateAuthToken({ phone });
     response.cookie(
       'authToken',

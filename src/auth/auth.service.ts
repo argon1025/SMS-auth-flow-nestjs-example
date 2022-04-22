@@ -27,7 +27,6 @@ export class AuthService {
       prismaService: this.prismaService,
       phone,
     });
-    console.log(userData);
 
     // NOTE: 유저 데이터가 없다면
     if (!userData) {
