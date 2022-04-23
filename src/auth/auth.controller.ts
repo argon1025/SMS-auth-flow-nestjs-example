@@ -2,6 +2,7 @@ import { Body, Controller, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 import {
+  ChangePassword,
   JoinCustomer,
   SendSms,
   VerificationSms,
@@ -15,6 +16,7 @@ import { SendSmsBodyRequestDto } from 'src/auth/dto/send-sms.dto';
 import { VerificationSmsBodyRequestDto } from 'src/auth/dto/verification-sms.dto';
 import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
 import { JoinCustomerBodyRequestDto } from 'src/auth/dto/join-customer.dto';
+import { ChangePasswordBodyRequestDto } from 'src/auth/dto/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -56,6 +58,15 @@ export class AuthController {
       phone,
       ...joinCustomerBodyRequestDto,
     });
+    return null;
+  }
+
+  @ChangePassword()
+  async changePassword(
+    @JwtUserId() { phone }: AuthTokenPayLoad,
+    @Body() { password }: ChangePasswordBodyRequestDto,
+  ) {
+    await this.authService.changePassword({ phone, password });
     return null;
   }
 }
