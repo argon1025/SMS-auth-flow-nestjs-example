@@ -124,7 +124,7 @@ export class AuthService {
       prismaService: this.prismaService,
       phone,
     });
-    // NOTE: 생성된 계정이 아에 없는경우
+    // NOTE: 생성된 계정이 없는경우
     if (!hasJoin) throw new ForbiddenException();
     // NOTE: 회원가입 되지 않은 유저인 경우
     if (!hasJoin.joinedAt) throw new ForbiddenException();
