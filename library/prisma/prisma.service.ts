@@ -1,5 +1,5 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService
@@ -16,5 +16,10 @@ export class PrismaService
     this.$on('beforeExit', async () => {
       await this.$disconnect();
     });
+  }
+
+  isPrismaError(error: any): error is Prisma.PrismaClientKnownRequestError {
+    if (!error) return false;
+    return error instanceof Prisma.PrismaClientKnownRequestError;
   }
 }

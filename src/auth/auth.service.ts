@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -8,6 +9,8 @@ import { Customers } from '@prisma/client';
 import { PrismaService } from 'library/prisma/prisma.service';
 import { SmsService } from 'library/sms/sms.service';
 import { AuthRepository } from 'src/auth/auth.repository';
+import { CryptoService } from 'library/crypto/crypto.service';
+import { time } from 'library/date/date';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +18,7 @@ export class AuthService {
     private readonly prismaService: PrismaService,
     private readonly authRepository: AuthRepository,
     private readonly smsService: SmsService,
+    private readonly cryptoService: CryptoService,
   ) {}
 
   private generateRandomCode() {
@@ -65,5 +69,47 @@ export class AuthService {
 
     await this.authRepository.deleteSmsCode({ phone });
     return true;
+  }
+
+  async joinCustomer({
+    phone,
+    nickname,
+    name,
+    email,
+    password,
+  }: {
+    phone: Customers['phone'];
+    nickname: Customers['nickname'];
+    email: Customers['email'];
+    name: Customers['name'];
+    password: Customers['password'];
+  }) {
+    const hasJoin = await this.authRepository.findFirstByPhone({
+      prismaService: this.prismaService,
+      phone,
+    });
+    // NOTE: 생성된 계정이 아에 없는경우
+    if (!hasJoin) throw new ForbiddenException();
+    // NOTE: 이미 가입한 유저인경우
+    if (hasJoin.joinedAt) throw new ForbiddenException();
+
+    const hashedPassword = await this.cryptoService.encryptPassword(password);
+    try {
+      await this.authRepository.updateByPhone({
+        prismaService: this.prismaService,
+        phone,
+        nickname,
+        name,
+        email,
+        password: hashedPassword,
+        joinedAt: time(),
+      });
+    } catch (error) {
+      if (!this.prismaService.isPrismaError(error)) {
+        throw new InternalServerErrorException();
+      }
+
+      throw new ForbiddenException();
+    }
   }
 }

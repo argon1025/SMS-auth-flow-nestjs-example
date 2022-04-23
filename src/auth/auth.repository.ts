@@ -54,6 +54,33 @@ export class AuthRepository {
     return prismaService.customers.findFirst({ where: { phone } });
   }
 
+  updateByPhone({
+    prismaService,
+    phone,
+    nickname,
+    name,
+    email,
+    password,
+    createdAt,
+    joinedAt,
+    deletedAt,
+  }: {
+    prismaService: PrismaService;
+    phone: Customers['phone'];
+    nickname?: Customers['nickname'];
+    email?: Customers['email'];
+    name?: Customers['name'];
+    password?: Customers['password'];
+    createdAt?: Customers['createdAt'];
+    joinedAt?: Customers['joinedAt'];
+    deletedAt?: Customers['deletedAt'];
+  }) {
+    return prismaService.customers.update({
+      where: { phone },
+      data: { nickname, email, name, password, deletedAt, createdAt, joinedAt },
+    });
+  }
+
   async setSmsCode({
     phone,
     code,

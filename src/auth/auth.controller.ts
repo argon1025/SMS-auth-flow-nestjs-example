@@ -1,13 +1,20 @@
 import { Body, Controller, Res } from '@nestjs/common';
 import { Response } from 'express';
 
-import { SendSms, VerificationSms } from 'src/auth/auth.decorator';
+import {
+  JoinCustomer,
+  SendSms,
+  VerificationSms,
+} from 'src/auth/auth.decorator';
 import { AuthService } from 'src/auth/auth.service';
 import { TokenService } from 'library/jwt/token.service';
 import { CookieService } from 'library/cookie/cookie.service';
+import { JwtUserId } from 'library/decorator/auth-token.decorator';
 
 import { SendSmsBodyRequestDto } from 'src/auth/dto/send-sms.dto';
 import { VerificationSmsBodyRequestDto } from 'src/auth/dto/verification-sms.dto';
+import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
+import { JoinCustomerBodyRequestDto } from 'src/auth/dto/join-customer.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -37,6 +44,18 @@ export class AuthController {
       this.cookieService.getAuthCookieOptions(),
     );
 
+    return null;
+  }
+
+  @JoinCustomer()
+  async joinCustomer(
+    @JwtUserId() { phone }: AuthTokenPayLoad,
+    @Body() joinCustomerBodyRequestDto: JoinCustomerBodyRequestDto,
+  ) {
+    await this.authService.joinCustomer({
+      phone,
+      ...joinCustomerBodyRequestDto,
+    });
     return null;
   }
 }
