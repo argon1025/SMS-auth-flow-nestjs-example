@@ -8,10 +8,8 @@ export class CryptoService {
 
   async encryptPassword(data: string) {
     try {
-      const result = await bcrypt.hash(
-        data,
-        await this.configService.get<number>('SALT_ROUND', 10),
-      );
+      const saltRound = await this.configService.get<number>('SALT_ROUND', 10);
+      const result = await bcrypt.hash(data, Number(saltRound));
       return result;
     } catch (error) {
       throw new InternalServerErrorException();
