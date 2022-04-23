@@ -112,4 +112,28 @@ export class AuthService {
       throw new ForbiddenException();
     }
   }
+
+  async changePassword({
+    phone,
+    password,
+  }: {
+    phone: Customers['phone'];
+    password: Customers['password'];
+  }) {
+    const hasJoin = await this.authRepository.findFirstByPhone({
+      prismaService: this.prismaService,
+      phone,
+    });
+    // NOTE: 생성된 계정이 없는경우
+    if (!hasJoin) throw new ForbiddenException();
+    // NOTE: 회원가입 되지 않은 유저인 경우
+    if (!hasJoin.joinedAt) throw new ForbiddenException();
+
+    const hashedPassword = await this.cryptoService.encryptPassword(password);
+    await this.authRepository.updateByPhone({
+      prismaService: this.prismaService,
+      phone,
+      password: hashedPassword,
+    });
+  }
 }

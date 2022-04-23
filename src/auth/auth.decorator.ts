@@ -1,5 +1,6 @@
-import { applyDecorators, Post, Put } from '@nestjs/common';
+import { applyDecorators, Patch, Post, Put } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
+
 import { JwtAuthTokenGuard } from 'library/guard/auth-token.guard';
 
 export const SendSms = () =>
@@ -19,4 +20,11 @@ export const JoinCustomer = () =>
     Put(),
     JwtAuthTokenGuard(),
     ApiOkResponse({ description: '가입 성공', type: '' }),
+  );
+
+export const ChangePassword = () =>
+  applyDecorators(
+    Patch('password'),
+    JwtAuthTokenGuard(),
+    ApiOkResponse({ description: '비밀번호 변경 성공', type: '' }),
   );
