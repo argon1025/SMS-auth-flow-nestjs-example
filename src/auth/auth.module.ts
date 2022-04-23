@@ -5,13 +5,22 @@ import { TokenModule } from 'library/jwt/token.module';
 import { PrismaModule } from 'library/prisma/prisma.module';
 import { RedisModule } from 'library/redis/redis.module';
 import { SmsModule } from 'library/sms/sms.module';
+import { JwtAuthStrategy } from 'src/auth/strategy/jwt-auth.strategy';
+import { CryptoModule } from 'library/crypto/crypto.module';
 import { AuthRepository } from './auth.repository';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 @Module({
-  imports: [PrismaModule, RedisModule, SmsModule, CookieModule, TokenModule],
+  imports: [
+    PrismaModule,
+    RedisModule,
+    SmsModule,
+    CookieModule,
+    TokenModule,
+    CryptoModule,
+  ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository],
+  providers: [AuthService, AuthRepository, JwtAuthStrategy],
 })
 export class AuthModule {}
