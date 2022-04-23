@@ -1,4 +1,4 @@
-import { applyDecorators, Patch, Post, Put } from '@nestjs/common';
+import { applyDecorators, Post, Put } from '@nestjs/common';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { JwtAuthTokenGuard } from 'library/guard/auth-token.guard';
 
