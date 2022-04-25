@@ -51,7 +51,27 @@ export class AuthRepository {
     prismaService: PrismaService;
     phone: Customers['phone'];
   }) {
-    return prismaService.customers.findFirst({ where: { phone } });
+    return prismaService.customers.findUnique({ where: { phone } });
+  }
+
+  findFirstByNickname({
+    prismaService,
+    nickname,
+  }: {
+    prismaService: PrismaService;
+    nickname: Customers['nickname'];
+  }) {
+    return prismaService.customers.findUnique({ where: { nickname } });
+  }
+
+  findFirstByEmail({
+    prismaService,
+    email,
+  }: {
+    prismaService: PrismaService;
+    email: Customers['email'];
+  }) {
+    return prismaService.customers.findUnique({ where: { email } });
   }
 
   updateByPhone({

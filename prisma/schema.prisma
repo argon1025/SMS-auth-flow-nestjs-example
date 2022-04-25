@@ -17,7 +17,7 @@ model Customers {
   id        Int       @id @default(autoincrement()) @db.UnsignedInt
   phone     String?   @unique @db.VarChar(20)
   nickname  String?   @unique @db.VarChar(15)
-  email     String?   @db.VarChar(50)
+  email     String?   @unique @db.VarChar(50)
   name      String?   @db.VarChar(15)
   password  String?   @db.VarChar(150)
   joinedAt  DateTime? @db.Date()

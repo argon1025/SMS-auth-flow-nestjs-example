@@ -28,3 +28,9 @@ export const ChangePassword = () =>
     JwtAuthTokenGuard(),
     ApiOkResponse({ description: '비밀번호 변경 성공', type: '' }),
   );
+
+export const Login = () =>
+  applyDecorators(
+    Post('login'),
+    ApiOkResponse({ description: '로그인 성공', type: '' }),
+  );

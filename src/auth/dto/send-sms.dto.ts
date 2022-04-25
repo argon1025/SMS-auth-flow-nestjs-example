@@ -1,14 +1,11 @@
 import { Customers } from '@prisma/client';
-import { Transform } from 'class-transformer';
-import { IsMobilePhone, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, Matches } from 'class-validator';
+import { REG_PHONE } from 'library/constant/constant';
 
 export class SendSmsBodyRequestDto {
-  // NOTE: 반드시 국가 코드를 입력해야합니다
-  @IsMobilePhone('ko-KR', { strictMode: true })
+  @Matches(REG_PHONE, { message: 'phone must match 000-0000-0000' })
   @IsString()
-  // TODO: 더 나은방법이 있는지 찾아보자
-  @Transform(({ value }) => {
-    return String(value).replace(/ |-/g, '').replace('+82010', '+8210');
-  })
+  @Type(() => String)
   readonly phone: Customers['phone'];
 }

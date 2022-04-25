@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
@@ -6,13 +10,22 @@ import * as bcrypt from 'bcrypt';
 export class CryptoService {
   constructor(private readonly configService: ConfigService) {}
 
-  async encryptPassword(data: string) {
+  encryptPassword(data: string) {
     try {
-      const saltRound = await this.configService.get<number>('SALT_ROUND', 10);
-      const result = await bcrypt.hash(data, Number(saltRound));
+      const saltRound = this.configService.get<number>('SALT_ROUND', 10);
+      const result = bcrypt.hashSync(data, Number(saltRound));
       return result;
     } catch (error) {
       throw new InternalServerErrorException();
+    }
+  }
+
+  comparePassword(plainData: string, hashedData: string) {
+    try {
+      const result = bcrypt.compareSync(plainData, hashedData);
+      return result;
+    } catch (error) {
+      throw new UnauthorizedException();
     }
   }
 }
