@@ -8,6 +8,7 @@ import { SmsModule } from 'library/sms/sms.module';
 import { JwtAuthStrategy } from 'src/auth/strategy/jwt-auth.strategy';
 import { CryptoModule } from 'library/crypto/crypto.module';
 import { JwtRefreshStrategy } from 'src/auth/strategy/jwt-refresh.strategy';
+import { JwtAccessStrategy } from 'src/auth/strategy/jwt-access.strategy';
 import { AuthRepository } from './auth.repository';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -22,6 +23,12 @@ import { AuthService } from './auth.service';
     CryptoModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtAuthStrategy, JwtRefreshStrategy],
+  providers: [
+    AuthService,
+    AuthRepository,
+    JwtAuthStrategy,
+    JwtRefreshStrategy,
+    JwtAccessStrategy,
+  ],
 })
 export class AuthModule {}
