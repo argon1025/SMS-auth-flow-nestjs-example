@@ -13,6 +13,7 @@ import { SmsService } from 'library/sms/sms.service';
 import { AuthRepository } from 'src/auth/auth.repository';
 import { CryptoService } from 'library/crypto/crypto.service';
 import { time } from 'library/date/date';
+
 import { REG_EMAIL, REG_PHONE } from 'library/constant/constant';
 
 @Injectable()
@@ -56,7 +57,7 @@ export class AuthService {
     });
 
     // NOTE: 인증번호 전송
-    await this.smsService.send(`${CODE}`);
+    this.smsService.send(`${CODE}`);
 
     return null;
   }
@@ -96,7 +97,7 @@ export class AuthService {
     // NOTE: 이미 가입한 유저인경우
     if (hasJoin.joinedAt) throw new ForbiddenException();
 
-    const hashedPassword = await this.cryptoService.encryptPassword(password);
+    const hashedPassword = this.cryptoService.encryptPassword(password);
     try {
       await this.authRepository.updateByPhone({
         prismaService: this.prismaService,
