@@ -4,6 +4,7 @@ import { Response } from 'express';
 import {
   ChangePassword,
   JoinCustomer,
+  Login,
   SendSms,
   VerificationSms,
 } from 'src/auth/auth.decorator';
@@ -17,6 +18,7 @@ import { VerificationSmsBodyRequestDto } from 'src/auth/dto/verification-sms.dto
 import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
 import { JoinCustomerBodyRequestDto } from 'src/auth/dto/join-customer.dto';
 import { ChangePasswordBodyRequestDto } from 'src/auth/dto/change-password.dto';
+import { LoginRequestBodyDto } from 'src/auth/dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -67,6 +69,23 @@ export class AuthController {
     @Body() { password }: ChangePasswordBodyRequestDto,
   ) {
     await this.authService.changePassword({ phone, password });
+    return null;
+  }
+
+  @Login()
+  async login(
+    @Body() { id, password }: LoginRequestBodyDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const customerData = await this.authService.validateCustomer(id, password);
+    const refreshToken = await this.tokenService.generateRefreshToken({
+      id: customerData.id,
+    });
+    response.cookie(
+      'refreshToken',
+      refreshToken,
+      this.cookieService.getRefreshCookieOptions(),
+    );
     return null;
   }
 }
