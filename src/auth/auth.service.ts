@@ -166,11 +166,11 @@ export class AuthService {
     if (!customerData) throw new NotFoundException();
     if (!customerData.joinedAt) throw new UnauthorizedException();
 
-    const isCustomer = this.cryptoService.comparePassword(
+    const isCorrectPassword = this.cryptoService.comparePassword(
       plainPassword,
       customerData.password,
     );
-    if (!isCustomer) throw new UnauthorizedException();
+    if (!isCorrectPassword) throw new UnauthorizedException();
 
     return customerData;
   }
