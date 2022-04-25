@@ -1,10 +1,12 @@
 import {
+  applyDecorators,
   ForbiddenException,
   Injectable,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Injectable()
 class JwtAccessToken extends AuthGuard('access-token') {
@@ -14,4 +16,5 @@ class JwtAccessToken extends AuthGuard('access-token') {
     return user;
   }
 }
-export const JwtAccessTokenGuard = () => UseGuards(JwtAccessToken);
+export const JwtAccessTokenGuard = () =>
+  applyDecorators(UseGuards(JwtAccessToken), ApiBearerAuth('accessToken'));
