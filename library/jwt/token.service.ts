@@ -20,7 +20,7 @@ export class TokenService {
   generateRefreshToken(payload: RefreshTokenPayLoad) {
     return this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_REFRESH_SECRET_KEY'),
-      expiresIn: Number(this.configService.get('JWT_REFRESH_EXPIRES_IN')),
+      expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
     });
   }
 }
