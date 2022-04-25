@@ -1,6 +1,7 @@
 import { Customers } from '@prisma/client';
 import { Type } from 'class-transformer';
 import { IsNumber, IsString, Matches, Max, Min } from 'class-validator';
+
 import { REG_PHONE } from 'library/constant/constant';
 
 export class VerificationSmsBodyRequestDto {

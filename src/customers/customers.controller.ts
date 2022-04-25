@@ -1,8 +1,10 @@
 import { Controller, UnauthorizedException } from '@nestjs/common';
+
 import { JwtAccessTokenData } from 'library/decorator/access-token.decorator';
-import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload';
 import { GetMe } from 'src/customers/customers.decorator';
 import { CustomersService } from 'src/customers/customers.service';
+
+import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload';
 import { GetMeResponseDto } from 'src/customers/dto/get-me.dto';
 
 @Controller('customers')
