@@ -164,6 +164,7 @@ export class AuthService {
       });
     }
     if (!customerData) throw new NotFoundException();
+    if (!customerData.joinedAt) throw new UnauthorizedException();
 
     const isCustomer = this.cryptoService.comparePassword(
       plainPassword,
