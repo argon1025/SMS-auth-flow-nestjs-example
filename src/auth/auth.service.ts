@@ -57,7 +57,7 @@ export class AuthService {
     });
 
     // NOTE: 인증번호 전송
-    this.smsService.send(`${CODE}`);
+    this.smsService.send(`${CODE}`, phone);
 
     return null;
   }
