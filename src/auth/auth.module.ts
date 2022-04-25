@@ -7,6 +7,7 @@ import { RedisModule } from 'library/redis/redis.module';
 import { SmsModule } from 'library/sms/sms.module';
 import { JwtAuthStrategy } from 'src/auth/strategy/jwt-auth.strategy';
 import { CryptoModule } from 'library/crypto/crypto.module';
+import { JwtRefreshStrategy } from 'src/auth/strategy/jwt-refresh.strategy';
 import { AuthRepository } from './auth.repository';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -21,6 +22,6 @@ import { AuthService } from './auth.service';
     CryptoModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthRepository, JwtAuthStrategy],
+  providers: [AuthService, AuthRepository, JwtAuthStrategy, JwtRefreshStrategy],
 })
 export class AuthModule {}

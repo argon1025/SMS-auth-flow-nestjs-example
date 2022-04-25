@@ -3,6 +3,7 @@ import { Response } from 'express';
 
 import {
   ChangePassword,
+  GetAccessToken,
   JoinCustomer,
   Login,
   SendSms,
@@ -19,6 +20,9 @@ import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
 import { JoinCustomerBodyRequestDto } from 'src/auth/dto/join-customer.dto';
 import { ChangePasswordBodyRequestDto } from 'src/auth/dto/change-password.dto';
 import { LoginRequestBodyDto } from 'src/auth/dto/login.dto';
+import { JwtRefreshTokenData } from 'library/decorator/refresh-token.decorator';
+import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload';
+import { GetAccessTokenResponseDto } from 'src/auth/dto/get-access-token.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -87,5 +91,16 @@ export class AuthController {
       this.cookieService.getRefreshCookieOptions(),
     );
     return null;
+  }
+
+  @GetAccessToken()
+  getAccessToken(
+    @JwtRefreshTokenData() refreshTokenPayload: RefreshTokenPayLoad,
+  ) {
+    return new GetAccessTokenResponseDto({
+      accessToken: this.tokenService.generateAccessToken({
+        id: refreshTokenPayload.id,
+      }),
+    });
   }
 }

@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 
 import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
 import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload';
+import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload';
 
 @Injectable()
 export class TokenService {
@@ -21,6 +22,13 @@ export class TokenService {
     return this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_REFRESH_SECRET_KEY'),
       expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
+    });
+  }
+
+  generateAccessToken(payload: AccessTokenPayLoad) {
+    return this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_ACCESS_SECRET_KEY'),
+      expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN'),
     });
   }
 }
