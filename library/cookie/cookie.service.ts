@@ -20,4 +20,24 @@ export class CookieService {
       ),
     };
   }
+
+  getRefreshCookieOptions(): CookieOptions {
+    return {
+      httpOnly: this.configService.get<boolean>(
+        'REFRESH_COOKIE_HTTP_ONLY',
+        true,
+      ),
+      secure: this.configService.get<boolean>('REFRESH_COOKIE_SECURE', false),
+      path: this.configService.get<string>('REFRESH_COOKIE_PATH', '/'),
+      domain: this.configService.get<string>(
+        'REFRESH_COOKIE_DOMAIN',
+        'localhost',
+      ),
+      maxAge: this.configService.get<number>('REFRESH_COOKIE_MAX_AGE', 1800),
+      sameSite: this.configService.get<boolean | 'lax' | 'strict' | 'none'>(
+        'REFRESH_COOKIE_SAME_SITE',
+        'strict',
+      ),
+    };
+  }
 }
