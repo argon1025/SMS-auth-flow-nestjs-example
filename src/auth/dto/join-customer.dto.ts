@@ -1,8 +1,9 @@
 import { Customers } from '@prisma/client';
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsString, Length, Matches } from 'class-validator';
+import { ONLY_TEXT } from 'library/constant/constant';
 
 export class JoinCustomerBodyRequestDto {
-  @IsString()
+  @Matches(ONLY_TEXT, { message: 'nickname must be text' })
   readonly nickname: Customers['nickname'];
 
   @IsEmail()
