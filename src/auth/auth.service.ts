@@ -15,6 +15,15 @@ import { CryptoService } from 'library/crypto/crypto.service';
 import { time } from 'library/date/date';
 
 import { REG_EMAIL, REG_PHONE } from 'library/constant/constant';
+import {
+  AlreadyJoinedError,
+  MismatchVerificationError,
+  MismatchVerificationPasswordError,
+  NeedCreateFirstError,
+  NeedJoinError,
+  NotFoundCustomerError,
+  NotFoundVerificationError,
+} from 'src/auth/type/auth.error.type';
 
 @Injectable()
 export class AuthService {
@@ -44,8 +53,10 @@ export class AuthService {
           phone,
         });
       } catch (error) {
-        // TODO: 에러 메시징
-        throw new InternalServerErrorException();
+        if (!this.prismaService.isPrismaError(error)) {
+          throw new InternalServerErrorException();
+        }
+        throw new ForbiddenException();
       }
     }
 
@@ -64,11 +75,11 @@ export class AuthService {
 
   async verificationSms(phone: Customers['phone'], code: number) {
     const result = await this.authRepository.getSmsCode({ phone });
-    if (!result) throw new BadRequestException();
+    if (!result) throw new BadRequestException(NotFoundVerificationError);
 
     if (result !== code) {
       await this.authRepository.deleteSmsCode({ phone });
-      throw new BadRequestException();
+      throw new BadRequestException(MismatchVerificationError);
     }
 
     await this.authRepository.deleteSmsCode({ phone });
@@ -92,10 +103,10 @@ export class AuthService {
       prismaService: this.prismaService,
       phone,
     });
-    // NOTE: 생성된 계정이 아에 없는경우
-    if (!hasJoin) throw new ForbiddenException();
+    // NOTE: 생성된 계정이 없는경우
+    if (!hasJoin) throw new ForbiddenException(NeedCreateFirstError);
     // NOTE: 이미 가입한 유저인경우
-    if (hasJoin.joinedAt) throw new ForbiddenException();
+    if (hasJoin.joinedAt) throw new ForbiddenException(AlreadyJoinedError);
 
     const hashedPassword = this.cryptoService.encryptPassword(password);
     try {
@@ -128,10 +139,8 @@ export class AuthService {
       prismaService: this.prismaService,
       phone,
     });
-    // NOTE: 생성된 계정이 없는경우
-    if (!hasJoin) throw new ForbiddenException();
     // NOTE: 회원가입 되지 않은 유저인 경우
-    if (!hasJoin.joinedAt) throw new ForbiddenException();
+    if (!hasJoin.joinedAt) throw new ForbiddenException(NeedJoinError);
 
     const hashedPassword = this.cryptoService.encryptPassword(password);
     await this.authRepository.updateByPhone({
@@ -163,14 +172,15 @@ export class AuthService {
         nickname: customerId,
       });
     }
-    if (!customerData) throw new NotFoundException();
-    if (!customerData.joinedAt) throw new UnauthorizedException();
+    if (!customerData) throw new NotFoundException(NotFoundCustomerError);
+    if (!customerData.joinedAt) throw new UnauthorizedException(NeedJoinError);
 
     const isCorrectPassword = this.cryptoService.comparePassword(
       plainPassword,
       customerData.password,
     );
-    if (!isCorrectPassword) throw new UnauthorizedException();
+    if (!isCorrectPassword)
+      throw new UnauthorizedException(MismatchVerificationPasswordError);
 
     return customerData;
   }
