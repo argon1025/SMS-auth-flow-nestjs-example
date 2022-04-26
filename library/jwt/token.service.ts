@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
-import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload';
-import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload';
+import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload.type';
+import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload.type';
+import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload.type';
 
 @Injectable()
 export class TokenService {

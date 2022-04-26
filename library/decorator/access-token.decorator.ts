@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload';
+import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload.type';
 
 export const JwtAccessTokenData = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): AccessTokenPayLoad => {

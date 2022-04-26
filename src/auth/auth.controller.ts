@@ -16,12 +16,12 @@ import { JwtUserId } from 'library/decorator/auth-token.decorator';
 
 import { SendSmsBodyRequestDto } from 'src/auth/dto/send-sms.dto';
 import { VerificationSmsBodyRequestDto } from 'src/auth/dto/verification-sms.dto';
-import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload';
+import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload.type';
 import { JoinCustomerBodyRequestDto } from 'src/auth/dto/join-customer.dto';
 import { ChangePasswordBodyRequestDto } from 'src/auth/dto/change-password.dto';
 import { LoginRequestBodyDto } from 'src/auth/dto/login.dto';
 import { JwtRefreshTokenData } from 'library/decorator/refresh-token.decorator';
-import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload';
+import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload.type';
 import { GetAccessTokenResponseDto } from 'src/auth/dto/get-access-token.dto';
 
 @Controller('auth')

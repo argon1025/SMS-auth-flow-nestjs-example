@@ -6,3 +6,8 @@ export const REG_EMAIL =
 
 // NOTE: ***-****-**** 형식만 허용
 export const REG_PHONE = /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/;
+
+export const CountryCode = {
+  KR: 'KR',
+  EN: 'EN',
+} as const;
