@@ -1,10 +1,15 @@
 import {
+  BadRequestException,
   ClassSerializerInterceptor,
   Module,
   ValidationPipe,
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { ValidationError } from 'class-validator';
+import { CountryCode } from 'library/constant/constant';
+import { AllExceptionsFilter } from 'library/exception/all-exception.filter';
+import { ExceptionMessageInterface } from 'library/exception/type/custom-exception-message';
 
 import { AuthModule } from './auth/auth.module';
 import { CustomersModule } from './customers/customers.module';
@@ -29,8 +34,17 @@ import { CustomersModule } from './customers/customers.module';
         whitelist: true,
         // NOTE: 알수없는 프로퍼티가 유효성 검사를 통과하는것을 막습니다
         forbidUnknownValues: true,
+        exceptionFactory: (errors: ValidationError[]) => {
+          if (!errors[0]?.constraints) return new BadRequestException();
+          const firstKey = Object.keys(errors[0].constraints);
+          const errorMessage: ExceptionMessageInterface = {
+            [CountryCode.EN]: errors[0].constraints[`${firstKey}`],
+          };
+          return new BadRequestException(errorMessage);
+        },
       }),
     },
+    { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
 })
 export class AppModule {}
