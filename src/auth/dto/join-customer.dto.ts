@@ -1,5 +1,6 @@
 import { Customers } from '@prisma/client';
 import { IsEmail, IsString, Length, Matches } from 'class-validator';
+
 import { ONLY_TEXT } from 'library/constant/constant';
 
 export class JoinCustomerBodyRequestDto {

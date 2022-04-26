@@ -8,11 +8,13 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
 import { CountryCode } from 'library/constant/constant';
-import { AllExceptionsFilter } from 'library/exception/all-exception.filter';
-import { ExceptionMessageInterface } from 'library/exception/type/custom-exception-message.type';
 
+import { AllExceptionsFilter } from 'library/exception/all-exception.filter';
 import { AuthModule } from './auth/auth.module';
 import { CustomersModule } from './customers/customers.module';
+
+/* eslint-disable import/order */
+import { ExceptionMessageInterface } from 'library/exception/type/custom-exception-message.type';
 
 @Module({
   imports: [
