@@ -1,6 +1,22 @@
 # Ably Assignment
 ## Toc
-
+- [프로젝트 소개](#프로젝트-소개)
+  - [프로젝트에 임하면서](#프로젝트에-임하면서)
+  - [폴더 구조](#폴더-구조)
+  - [최종 구현 사항](#최종-구현)
+  - [개발 스택](#개발-스택)
+  - [코드 컨벤션](#코드-컨벤션)
+- [프로젝트 시작 방법](#프로젝트-시작-방법)
+  - [1. Docker-compose 로컬 개발환경 시작](#1-프로젝트-폴더-이동-docker-compose-컨테이너-실행-redis-mysql)
+  - [2. 패키지 설치](#2-패키지-설치)
+  - [3. 환경설정 파일 구성](#3-환경설정-파일-구성)
+  - [4. Prisma 동기화, Client 생성](#4-마이그레이션-동기화-및-prisma-client-생성)
+  - [5. 앱 실행, Swagger 접속](#5-nestjs-앱-실행-및-swagger-document)
+- [엔드포인트 및 로직 소개](#엔드포인트-소개-로직)
+  - [POST : /auth/sms](#post--authsms)
+  - [POST : /auth/sms/verification](#post--authsmsverification)
+  - [PUT : /auth](#put--auth)
+  - [PATCH : /auth/password](#patch--authpassword)
 ## 프로젝트 소개
 ### 프로젝트에 임하면서
 `좋은 코드`는 `읽기 쉬운 코드`라고 생각하며 좋은 코드에 왕도는 없다는 일념하에서  
@@ -189,10 +205,12 @@ $ yarn start:local
 $ yarn start:local:watch
 $ yarn start:local:degub
 ```
+<img width="474" alt="image" src="https://user-images.githubusercontent.com/55491354/165271241-8fd803fd-e496-4567-877e-36635f8d4140.png">
+
+ [localhost/api](http://localhost/api) 에서 엔드포인트 및 DTO를 확인할 수 있습니다
 
 
 ## 엔드포인트 소개, 로직
-앱을 실행하고 [localhost/api](http://localhost/api) 에서 엔드포인트 및 DTO를 확인할 수 있습니다
 ### POST : /auth/sms  
 <img width="443" alt="image" src="https://user-images.githubusercontent.com/55491354/165262364-93d6de58-ee84-41e0-86b8-e1a0433de7e6.png">
 회원가입 및 비밀번호 찾기(변경)을 위해 휴대폰 SMS 인증을 요청합니다 
@@ -209,17 +227,17 @@ SMS 인증번호를 검증하고 성공 시 AuthToken을 httpOnly 쿠키로 받�
 <img width="490" alt="image" src="https://user-images.githubusercontent.com/55491354/165263388-86789045-11cc-4446-af0c-6224e2303e09.png">
 AuthToken의 유효성을 검증한 후 회원가입을 진행합니다
 
-### /auth/password
+### PATCH : /auth/password
 <img width="483" alt="image" src="https://user-images.githubusercontent.com/55491354/165263587-76e7249c-754a-42fc-8808-2f8f503e3b67.png">
 AuthToken의 유효성을 검증한 후 비밀번호를 변경합니다
 
-### POST /auth/login
+### POST : /auth/login
 <img width="536" alt="image" src="https://user-images.githubusercontent.com/55491354/165263732-661e06ea-8c89-4bef-aca8-b583261c2df3.png">
 유니크 데이터(nickname, email, phone)로 로그인을 시도할 수 있습니다
 
 로그인 성공 시 RefreshToken을 httpOnly 쿠키로 받습니다
 
-### GET /auth/access-token
+### GET : /auth/access-token
 <img width="445" alt="image" src="https://user-images.githubusercontent.com/55491354/165264365-6fb483fe-172e-4865-8d45-32b459aebe7d.png">
 RefreshToken을 검증 후 AccessToken을 Body 응답으로 수신합니다
 
@@ -227,6 +245,6 @@ RefreshToken을 검증 후 AccessToken을 Body 응답으로 수신합니다
 <img width="174" alt="image" src="https://user-images.githubusercontent.com/55491354/165264586-a9dc8ef8-c43f-45ec-a6f6-108b83538a24.png">
 받은 AccessToken을 Swagger에서 테스트하기 위해서는 Swagger 문서 상단 Authorize 에서 토큰을 등록해야 합니다
 
-### GET /customers/me
+### GET : /customers/me
 <img width="466" alt="image" src="https://user-images.githubusercontent.com/55491354/165264830-2b5412f5-6593-4c84-95ed-71012c2f695a.png">
 RefreshToken을 검증 후 유저 정보를 반환합니다
