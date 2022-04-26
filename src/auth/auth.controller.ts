@@ -12,7 +12,7 @@ import {
 import { AuthService } from 'src/auth/auth.service';
 import { TokenService } from 'library/jwt/token.service';
 import { CookieService } from 'library/cookie/cookie.service';
-import { JwtUserId } from 'library/decorator/auth-token.decorator';
+import { JwtAuthTokenData } from 'library/decorator/auth-token.decorator';
 
 import { SendSmsBodyRequestDto } from 'src/auth/dto/send-sms.dto';
 import { VerificationSmsBodyRequestDto } from 'src/auth/dto/verification-sms.dto';
@@ -57,7 +57,7 @@ export class AuthController {
 
   @JoinCustomer()
   async joinCustomer(
-    @JwtUserId() { phone }: AuthTokenPayLoad,
+    @JwtAuthTokenData() { phone }: AuthTokenPayLoad,
     @Body() joinCustomerBodyRequestDto: JoinCustomerBodyRequestDto,
   ) {
     await this.authService.joinCustomer({
@@ -69,7 +69,7 @@ export class AuthController {
 
   @ChangePassword()
   async changePassword(
-    @JwtUserId() { phone }: AuthTokenPayLoad,
+    @JwtAuthTokenData() { phone }: AuthTokenPayLoad,
     @Body() { password }: ChangePasswordBodyRequestDto,
   ) {
     await this.authService.changePassword({ phone, password });
