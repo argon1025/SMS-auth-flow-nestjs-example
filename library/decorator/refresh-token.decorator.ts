@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload';
+import { RefreshTokenPayLoad } from 'library/jwt/type/refresh-token-payload.type';
 
 export const JwtRefreshTokenData = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): RefreshTokenPayLoad => {

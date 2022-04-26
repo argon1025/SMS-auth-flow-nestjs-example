@@ -4,7 +4,7 @@ import { JwtAccessTokenData } from 'library/decorator/access-token.decorator';
 import { GetMe } from 'src/customers/customers.decorator';
 import { CustomersService } from 'src/customers/customers.service';
 
-import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload';
+import { AccessTokenPayLoad } from 'library/jwt/type/access-token-payload.type';
 import { GetMeResponseDto } from 'src/customers/dto/get-me.dto';
 
 @Controller('customers')

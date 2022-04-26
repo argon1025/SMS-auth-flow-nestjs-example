@@ -10,7 +10,7 @@ import { HttpAdapterHost } from '@nestjs/core';
 import {
   CustomExceptionResponseInterface,
   isCustomExceptionMessageInterface,
-} from 'library/exception/type/custom-exception-message';
+} from 'library/exception/type/custom-exception-message.type';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
