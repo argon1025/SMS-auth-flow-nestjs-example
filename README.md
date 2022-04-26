@@ -243,6 +243,8 @@ $ yarn start:local:degub
 
 `Redis`에서 인증번호와 만료 시간을 관리합니다
 
+`SMS` 전송은 `./library/sms` 서비스에서 담당하며 실제로 SMS를 전송하지 않고 Logger를 통해서 인증번호를 확인할 수 있습니다
+
 ### POST : /auth/sms/verification
 
 <img width="642" alt="image" src="https://user-images.githubusercontent.com/55491354/165263164-767bb78b-92e1-424c-9373-55814ec67c5b.png">
