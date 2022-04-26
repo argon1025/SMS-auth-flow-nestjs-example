@@ -19,7 +19,6 @@ import {
   AlreadyJoinedError,
   MismatchVerificationError,
   MismatchVerificationPasswordError,
-  NeedCreateFirstError,
   NeedJoinError,
   NotFoundCustomerError,
   NotFoundVerificationError,
