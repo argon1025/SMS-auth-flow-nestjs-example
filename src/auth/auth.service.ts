@@ -103,8 +103,6 @@ export class AuthService {
       prismaService: this.prismaService,
       phone,
     });
-    // NOTE: 생성된 계정이 없는경우
-    if (!hasJoin) throw new ForbiddenException(NeedCreateFirstError);
     // NOTE: 이미 가입한 유저인경우
     if (hasJoin.joinedAt) throw new ForbiddenException(AlreadyJoinedError);
 
