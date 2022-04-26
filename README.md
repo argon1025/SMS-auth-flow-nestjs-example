@@ -251,8 +251,8 @@ $ yarn start:local:degub
 회원가입 및 비밀번호 찾기(변경)을 위해 휴대폰 SMS 인증을 요청합니다
 
 - `Redis`에서 인증번호와 만료 시간을 관리합니다
-
 - `SMS` 전송은 `./library/sms` 서비스에서 담당하며 실제로 SMS를 전송하지 않고 Logger를 통해서 인증번호를 확인할 수 있습니다
+- <img width="662" alt="image" src="https://user-images.githubusercontent.com/55491354/165282785-47d5b93a-9c70-4b3a-a3ea-60502446a0c5.png">
 
 ### POST : /auth/sms/verification
 
