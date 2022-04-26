@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Customers } from '@prisma/client';
 
 import { time } from 'library/date/date';
@@ -7,12 +8,10 @@ import { RedisService } from 'library/redis/redis.service';
 
 @Injectable()
 export class AuthRepository {
-  private readonly REDIS_VERIFICATION_CODE = {
-    KEY: 'VERIFICATION',
-    TTL: 120,
-  };
-
-  constructor(private readonly redisService: RedisService) {}
+  constructor(
+    private readonly redisService: RedisService,
+    private readonly configService: ConfigService,
+  ) {}
 
   create({
     prismaService,
@@ -108,12 +107,16 @@ export class AuthRepository {
     phone: Customers['phone'];
     code: number;
   }) {
+    const KEY = this.configService.get<string>(
+      'REDIS_VERIFICATION_KEY',
+      'VERIFICATION',
+    );
+    const TTL = this.configService.get<number>('REDIS_VERIFICATION_TTL', 120);
+
     try {
-      await this.redisService.set(
-        `${this.REDIS_VERIFICATION_CODE.KEY}:${phone}`,
-        code,
-        { ttl: this.REDIS_VERIFICATION_CODE.TTL },
-      );
+      await this.redisService.set(`${KEY}:${phone}`, code, {
+        ttl: TTL,
+      });
       return true;
     } catch (error) {
       throw new InternalServerErrorException();
@@ -121,14 +124,18 @@ export class AuthRepository {
   }
 
   getSmsCode({ phone }: { phone: Customers['phone'] }) {
-    return this.redisService.get<number>(
-      `${this.REDIS_VERIFICATION_CODE.KEY}:${phone}`,
+    const KEY = this.configService.get<string>(
+      'REDIS_VERIFICATION_KEY',
+      'VERIFICATION',
     );
+    return this.redisService.get<number>(`${KEY}:${phone}`);
   }
 
   deleteSmsCode({ phone }: { phone: Customers['phone'] }) {
-    return this.redisService.delete(
-      `${this.REDIS_VERIFICATION_CODE.KEY}:${phone}`,
+    const KEY = this.configService.get<string>(
+      'REDIS_VERIFICATION_KEY',
+      'VERIFICATION',
     );
+    return this.redisService.delete(`${KEY}:${phone}`);
   }
 }

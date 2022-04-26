@@ -2,7 +2,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 import { AuthTokenPayLoad } from 'library/jwt/type/auth-token-payload.type';
 
-export const JwtUserId = createParamDecorator(
+export const JwtAuthTokenData = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): AuthTokenPayLoad => {
     const request = ctx.switchToHttp().getRequest();
     // TODO: 타입 단언 변경 필요

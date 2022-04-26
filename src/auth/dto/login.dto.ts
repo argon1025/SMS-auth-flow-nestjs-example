@@ -4,7 +4,7 @@ import { IsNotEmpty, IsString, Length } from 'class-validator';
 export class LoginRequestBodyDto {
   @IsString()
   @IsNotEmpty()
-  @Length(1, 49)
+  @Length(2, 49)
   id: string;
 
   @IsString()

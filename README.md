@@ -22,6 +22,7 @@
   - [POST : /auth/login](#post--authlogin)
   - [GET : /auth/access-token](#get--authaccess-token)
   - [GET : /customers/me](#get--customersme)
+- [유효성 검사](#유효성-검사)
 
 ## 프로젝트 소개
 
@@ -210,6 +211,14 @@ REFRESH_COOKIE_SAME_SITE=strict
 # 토큰 설정
 JWT_ACCESS_SECRET_KEY=1a2s3d4f
 JWT_ACCESS_EXPIRES_IN=10m
+
+
+# ##########################################
+# SMS Verification
+# 문자 인증 설정
+# ##########################################
+REDIS_VERIFICATION_KEY=VERIFICATION
+REDIS_VERIFICATION_TTL=180
 ```
 
 ### 4. 마이그레이션 동기화 및 Prisma Client 생성
@@ -241,7 +250,9 @@ $ yarn start:local:degub
 
 회원가입 및 비밀번호 찾기(변경)을 위해 휴대폰 SMS 인증을 요청합니다
 
-`Redis`에서 인증번호와 만료 시간을 관리합니다
+- `Redis`에서 인증번호와 만료 시간을 관리합니다
+
+- `SMS` 전송은 `./library/sms` 서비스에서 담당하며 실제로 SMS를 전송하지 않고 Logger를 통해서 인증번호를 확인할 수 있습니다
 
 ### POST : /auth/sms/verification
 
@@ -286,3 +297,21 @@ AccessToken은 Bearer인증방식을 사용하고 `Authorization: Bearer ${acces
 <img width="466" alt="image" src="https://user-images.githubusercontent.com/55491354/165264830-2b5412f5-6593-4c84-95ed-71012c2f695a.png">
 
 `AccessToken`을 검증 후 유저 정보를 반환합니다
+
+# 유효성 검사
+
+데이터 유효성 검사는 `Class-validation`으로 진행하며 각 정책에 대해서는  
+`Swagger DTO` 또는 소스코드 `DTO`를 열람하셔야합니다
+
+- phone
+  - 000-0000-0000 형식만 가능합니다
+  - 유니크 합니다
+- nickname
+  - 영어 또는 한국어 텍스트만 가능합니다
+  - 유니크 합니다
+- email
+  - 이메일 형식만 가능합니다
+  - 유니크합니다
+- name
+  - 문자열만 가능합니다
+  - 중복을 허용합니다
