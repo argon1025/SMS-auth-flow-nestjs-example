@@ -17,6 +17,7 @@ import { time } from 'library/date/date';
 import { REG_EMAIL, REG_PHONE } from 'library/constant/constant';
 import {
   AlreadyJoinedError,
+  AlreadyUsedUniqueValueError,
   MismatchVerificationError,
   MismatchVerificationPasswordError,
   NeedJoinError,
@@ -121,7 +122,7 @@ export class AuthService {
         throw new InternalServerErrorException();
       }
 
-      throw new ForbiddenException();
+      throw new ForbiddenException(AlreadyUsedUniqueValueError);
     }
   }
 
