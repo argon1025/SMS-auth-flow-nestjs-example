@@ -69,8 +69,6 @@ export class AuthService {
 
     // NOTE: 인증번호 전송
     this.smsService.send(`${CODE}`, phone);
-
-    return null;
   }
 
   async verificationSms(phone: Customers['phone'], code: number) {
