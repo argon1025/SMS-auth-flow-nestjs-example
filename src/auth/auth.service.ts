@@ -17,6 +17,7 @@ import { time } from 'library/date/date';
 import { REG_EMAIL, REG_PHONE } from 'library/constant/constant';
 import {
   AlreadyJoinedError,
+  AlreadyUsedUniqueValueError,
   MismatchVerificationError,
   MismatchVerificationPasswordError,
   NeedJoinError,
@@ -68,8 +69,6 @@ export class AuthService {
 
     // NOTE: 인증번호 전송
     this.smsService.send(`${CODE}`, phone);
-
-    return null;
   }
 
   async verificationSms(phone: Customers['phone'], code: number) {
@@ -121,7 +120,7 @@ export class AuthService {
         throw new InternalServerErrorException();
       }
 
-      throw new ForbiddenException();
+      throw new ForbiddenException(AlreadyUsedUniqueValueError);
     }
   }
 

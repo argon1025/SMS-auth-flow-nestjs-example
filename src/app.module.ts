@@ -33,7 +33,7 @@ const validationPipeProvider: Provider = {
     forbidUnknownValues: true,
     exceptionFactory: (errors: ValidationError[]) => {
       if (!errors[0]?.constraints) return new BadRequestException();
-      const firstKey = Object.keys(errors[0].constraints);
+      const firstKey = Object.keys(errors[0].constraints)[0];
       const errorMessage: ExceptionMessageInterface = {
         [CountryCode.EN]: errors[0].constraints[`${firstKey}`],
       };

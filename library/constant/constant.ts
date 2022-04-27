@@ -7,7 +7,7 @@ export const REG_EMAIL =
 // NOTE: ***-****-**** 형식만 허용
 export const REG_PHONE = /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/;
 
-export const ONLY_TEXT = /^[a-z|0-9|ㄱ-ㅎ|가-힣]*$/g;
+export const ONLY_TEXT = /^[a-z|0-9|가-힣]+$/g;
 
 export const CountryCode = {
   KR: 'KR',

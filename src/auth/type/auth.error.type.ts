@@ -27,3 +27,7 @@ export const NeedJoinError: ExceptionMessageInterface = {
 export const AlreadyJoinedError: ExceptionMessageInterface = {
   KR: '이미 가입한 유저입니다',
 } as const;
+
+export const AlreadyUsedUniqueValueError: ExceptionMessageInterface = {
+  KR: '이메일 또는 별명이 이미 사용중입니다.',
+} as const;

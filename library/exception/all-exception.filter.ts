@@ -40,8 +40,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
       message: isCustomMessage ? exceptionData : undefined,
     };
 
-    // TODO: 개발 진행중 500 에러 모니터링 수단, 배포시 APM으로 연동해야한다
-    if (httpStatusCode === HttpStatus.INTERNAL_SERVER_ERROR)
+    // TODO: 개발 진행중 handel 되지 않은 에러 모니터링 수단, 배포시 APM으로 연동해야 한다.
+    if (httpStatusCode === HttpStatus.INTERNAL_SERVER_ERROR || !isHttpException)
       Logger.error(exception);
 
     httpAdapter.reply(ctx.getResponse(), responseData, httpStatusCode);
