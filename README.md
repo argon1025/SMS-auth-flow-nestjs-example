@@ -23,10 +23,12 @@
   - [GET : /auth/access-token](#get--authaccess-token)
   - [GET : /customers/me](#get--customersme)
 - [유효성 검사](#유효성-검사)
+- [스키마 마이그레이션 기록](https://github.com/argon1025/SMS-assignment-nestjs/tree/main/prisma)
 
 ## 프로젝트 소개
 
 ### 프로젝트에 녹여낸 가치
+
 - `좋은 코드`는 `읽기 쉬운 코드`라고 생각합니다
 - 좋은 코드에 왕도는 없습니다
 - 나의 시야를 다른 사람과 공유하기위해 노력합니다
@@ -316,3 +318,8 @@ AccessToken은 Bearer인증방식을 사용하고 `Authorization: Bearer ${acces
 - name
   - 문자열만 가능합니다
   - 중복을 허용합니다
+
+# 스키마 마이그레이션 기록
+
+이 프로젝트에서는 Prisma migration으로 스키마를 업데이트, 관리합니다  
+[이곳](https://github.com/argon1025/SMS-assignment-nestjs/tree/main/prisma) 에서 마이그레이션 기록을 열람할 수 있습니다
