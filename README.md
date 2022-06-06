@@ -1,4 +1,4 @@
-# SMS-assignment-nestjs
+# SMS Auth-Flow Nestjs Example
 
 ## TOC
 
