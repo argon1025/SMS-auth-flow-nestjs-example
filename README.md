@@ -137,7 +137,6 @@ $ cd ./ably-assignment-nestjs
 $ docker-compose up
 ```
 
-<img width="300" alt="image" src="https://user-images.githubusercontent.com/55491354/165258449-2529a5c6-680c-4e29-bdd2-ceb00cf33b4d.png">
 컨테이너가 정상적으로 실행되었을 경우 다음으로 넘어갑니다
 
 > MySQL 데이터는 프로젝트 폴더 `./docker/mysql/mysql-data`에 저장됩니다
